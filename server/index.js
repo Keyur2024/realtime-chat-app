@@ -5,9 +5,9 @@ import cors from "cors";
 import dotenv from "dotenv";
 import { createClient } from "redis";
 import { createAdapter } from "@socket.io/redis-adapter";
-import authRoutes from "./routes/authRoutes.js";
 
 import { connectDB } from "./config/db.js";
+import authRoutes from "./routes/authRoutes.js";
 import messageRoutes from "./routes/messageRoutes.js";
 import { initSocket, cleanupStaleRooms } from "./sockets/chatSocket.js";
 
@@ -20,12 +20,11 @@ app.use(cors({ origin: CLIENT_URL }));
 app.use(express.json());
 app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageRoutes);
-app.use("/api/messages", messageRoutes);
 
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: "CLIENT_URL",
+    origin: CLIENT_URL,
     methods: ["GET", "POST"],
   },
 });
