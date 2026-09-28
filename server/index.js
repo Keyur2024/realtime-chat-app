@@ -12,10 +12,11 @@ import messageRoutes from "./routes/messageRoutes.js";
 import { initSocket, cleanupStaleRooms } from "./sockets/chatSocket.js";
 
 dotenv.config();
+const CLIENT_URL = process.env.CLIENT_URL || "http://localhost:5173";
 connectDB();
 
 const app = express();
-app.use(cors());
+app.use(cors({ origin: CLIENT_URL }));
 app.use(express.json());
 app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageRoutes);
@@ -24,7 +25,7 @@ app.use("/api/messages", messageRoutes);
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:5173",
+    origin: "CLIENT_URL",
     methods: ["GET", "POST"],
   },
 });
